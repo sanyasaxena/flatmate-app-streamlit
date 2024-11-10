@@ -1,56 +1,84 @@
 # Flatmate Recommendation System
-Flatmate Recommendation System: A Streamlit-based web app that helps users find compatible flatmates based on preferences like age, occupation, tidiness, lifestyle, and locality. The app uses a ML model (KNN with TF-IDF) to match users based on both user preferences and locality.
 
-Features
-User Preferences Input:
+A web-based application built with **Streamlit** that helps users find compatible flatmates based on their personal preferences and geographical proximity. The app uses machine learning (K-Nearest Neighbors with TF-IDF vectorization) to match users based on personality traits and preferences, and calculates geographical distances to recommend flatmates within a reasonable location.
 
-Users provide preferences related to personality, age, occupation, tidiness, dietary habits, and other lifestyle choices.
-The app collects user preferences including locality to make accurate recommendations.
-Compatibility Scoring:
+## Features
 
-The app uses a K-Nearest Neighbors (KNN) model with TF-IDF vectorization to compare user preferences and generate a compatibility score.
-The system considers multiple features like age, gender, tidiness preference, occupation, and lifestyle.
-Geographical Proximity Filtering:
+- **User Preferences Matching**: Users provide preferences like age, gender, occupation, tidiness, dietary habits, lifestyle, and locality.
+- **Compatibility Scoring**: The system calculates compatibility scores by comparing user preferences using **TF-IDF vectorization** and the **K-Nearest Neighbors (KNN)** algorithm.
+- **Geographical Proximity**: The app calculates geographical distances between users using **Haversine formula**, ensuring recommendations are limited to flatmates within **6-7 km**.
+- **Locality Map**: The app displays user and flatmate locations on an interactive **map** using **Folium**, helping users visualize proximity.
+- **Interactive Streamlit UI**: The app offers an easy-to-use interface for users to select their preferences and view the results.
 
-User locality is matched with corresponding latitude and longitude coordinates.
-The app calculates the geographical distance between the user and potential flatmates based on their locality and filters recommendations to those within 6-7 km.
-Locality Map Visualization:
+## How It Works
 
-The app integrates a map that displays the user’s location and recommended flatmates’ locations using Folium.
-A MarkerCluster is used to show multiple flatmate locations on the map, with markers representing both the user's and recommended flatmates' locations.
-Recommendation Display:
+1. **User Input**: 
+   - Users select preferences such as age, gender, occupation, tidiness preference, dietary habits, and locality.
+2. **Data Processing**:
+   - User input is preprocessed and standardized (e.g., cleaning text, mapping responses like "yes" to "Yes").
+   - The preferences are combined into a single string for each user, which is then vectorized using **TF-IDF** to quantify textual data.
+3. **Compatibility Matching**:
+   - A **K-Nearest Neighbors (KNN)** algorithm is applied to the transformed data to identify the most compatible flatmates.
+4. **Geographical Filtering**:
+   - The geographical distance between the user and potential flatmates is calculated using **latitude** and **longitude** coordinates.
+   - Recommendations are filtered to only show flatmates within **6-7 km** of the user.
+5. **Flatmate Recommendations**:
+   - Flatmates are ranked based on compatibility scores and final scores that incorporate both compatibility and geographical proximity.
+6. **Locality Map**:
+   - The app plots the user’s and recommended flatmates’ locations on a **map** using **Folium**.
+   - The user’s location is marked in **blue**, while recommended flatmates' locations are marked in **green**.
 
-Recommendations are displayed along with compatibility scores, filtered by geographical proximity.
-Each recommendation includes user preferences and a final compatibility score that factors in both user preferences and geographical distance.
-How It Works
-User Input:
+## Data
 
-Users input their personal preferences, including age, occupation, tidiness, dietary preferences, lifestyle, and locality.
-Data Processing:
+- **User Preferences**: Fields like age, gender, personality type, occupation, tidiness preference, dietary habits, smoking/alcohol consumption, and locality.
+- **Locality Coordinates**: The localities are associated with **latitude** and **longitude** values to compute geographical distances.
+- **Standardized Features**: Some features, such as "Do you consume alcohol?" and "Tidiness Preference," are standardized to maintain consistency in user input.
 
-The app preprocesses the data, standardizing text fields (like tidiness and alcohol consumption) and lowercasing string values.
-The preferences are combined into a single feature set for each user and transformed using TF-IDF vectorization to measure textual similarity.
-K-Nearest Neighbors (KNN):
+## Technology Stack
 
-The KNN algorithm is applied to match users with the most compatible flatmates based on the cosine similarity of their features.
-Geographical Filtering:
+- **Streamlit**: For building the web application interface and user interaction.
+- **Pandas**: For data manipulation, handling user preferences, and processing CSV files.
+- **Scikit-learn**: For machine learning tasks, including **TF-IDF vectorization** and **K-Nearest Neighbors (KNN)** algorithm.
+- **Folium**: For generating interactive maps and displaying geographical data.
+- **Numpy**: For handling numerical operations, especially in distance calculations using the Haversine formula.
 
-Latitude and longitude for the user's locality are fetched, and the Haversine formula is used to calculate the distance between the user and the recommended flatmates.
-Only those within 6-7 km of the user are shown as recommendations.
-Map Visualization:
+## Workflow
 
-Folium is used to display a map with markers for the user’s location and the recommended flatmates’ locations.
-A MarkerCluster groups the flatmate markers, providing an interactive map experience.
-Data
-User Preferences:
+1. **Preprocessing**:
+   - User input is standardized and converted into lowercase.
+   - Features are combined into a single string for each user to be used in TF-IDF vectorization.
+   
+2. **Model Training**:
+   - The system uses **TF-IDF** to vectorize user preferences and **KNN** to find the nearest neighbors (most compatible flatmates).
 
-Includes fields such as Age, Gender, Personality, Occupation, Tidiness Preference, Dietary Preferences, Chore Preferences, Lifestyle, Smoking and Alcohol Habits, and Locality.
-Locality Coordinates:
+3. **Geographical Filtering**:
+   - The **Haversine formula** is used to calculate distances between localities and filter out flatmates who are not within a reasonable proximity (6-7 km).
 
-Each locality is associated with latitude and longitude coordinates to calculate the distance between users and potential flatmates.
-Technology Stack
-Streamlit: To build the interactive web app interface.
-Pandas: For managing user data and performing data manipulation.
-Scikit-learn: For TF-IDF vectorization and K-Nearest Neighbors (KNN) implementation.
-Folium: For generating the interactive map with markers to visualize the flatmates' locations.
-Numpy: For numerical calculations, especially in distance and similarity computations.
+4. **Recommendation Generation**:
+   - Recommendations are generated based on compatibility scores (calculated by KNN) and geographical proximity (based on Haversine distance).
+
+5. **Map Visualization**:
+   - **Folium** is used to display the user's location and the recommended flatmates on a map, making it easy to visualize proximity.
+
+## Conclusion
+
+The **Flatmate Recommendation System** uses machine learning and geospatial data to help users find flatmates who match their preferences in terms of personality and lifestyle, as well as being geographically close. The system ensures both compatibility and convenience by factoring in user preferences and location, providing personalized recommendations with a visual map interface.
+
+---
+
+## Installation
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/your-username/flatmate-recommendation-system.git
+    ```
+2. Install the required dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+3. Run the Streamlit app:
+    ```bash
+    streamlit run flatmate_app.py
+    ```
+
+---
